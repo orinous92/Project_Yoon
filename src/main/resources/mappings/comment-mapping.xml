@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="CommentDAO">
+	
+	<select id="getCommentList" parameterType="int"  resultType="comment">
+		select *
+			from product_comment
+			where pno = #{pno}
+			order by regdate desc
+	</select>
+	
+	<insert id="insertComment" parameterType="comment">
+		insert into product_comment(comment_no, pno, content, writer) 
+			values (prod_comment_seq.nextval, #{pno}, #{content}, #{writer})
+	</insert>
+	
+	<update id="updateComment" parameterType="comment">
+		update product_comment
+			set content = #{content},
+				modifydate = #{modifydate}
+			where comment_no = #{comment_no}
+	</update>
+	
+	<delete id="deleteComment" parameterType="int">
+		delete from product_comment
+			where comment_no = #{comment_no}
+	</delete>
+	
+	<select id="boardCommentList" parameterType="int"  resultType="board_comment">
+		select *
+			from board_comment
+			where bno = #{bno}
+			order by regdate desc
+	</select>
+	
+	<insert id="insertBoardComment" parameterType="board_comment">
+		insert into board_comment(comment_no, bno, content, writer) 
+			values (board_comment_seq.nextval, #{bno}, #{content}, #{writer})
+	</insert>
+	
+	<update id="updateBoardComment" parameterType="board_comment">
+		update board_comment
+			set content = #{content},
+				modifydate = #{modifydate}
+			where comment_no = #{comment_no}
+	</update>
+	
+	<delete id="deleteBoardComment" parameterType="int">
+		delete from board_comment
+			where comment_no = #{comment_no}
+	</delete>
+	
+	
+</mapper>

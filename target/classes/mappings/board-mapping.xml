@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="BoardDAO">
+	
+	<select id="getBoard" resultType="board">
+		select * from board 
+			where bno = #{bno}
+	</select>
+	
+	<!-- 게시판 목록 페이징처리 -->
+	<select id="listBoardWithPaging" resultType="board">
+		<![CDATA[
+		select
+			bno,
+			title,
+			content,
+			writer,
+			regdate,
+			viewcnt,
+			useyn
+		from ( 
+				select rownum rn,
+					   bno,
+					   title,
+					   content,
+					   writer,
+					   regdate,
+					   viewcnt,
+					   useyn
+					   from
+					   		board
+					   where rownum <= #{pageNum} * #{amount}
+					 )
+				where rn > (#{pageNum} - 1) * #{amount} and useyn = 'y' and writer != 'admin'
+				order by bno desc
+			]]>
+	</select>
+	
+	<insert id="insertBoard">
+		insert into board (bno, title, content, writer, viewcnt, image) values (board_seq.nextval, #{title}, #{content}, #{writer}, #{viewcnt}, #{image})
+	</insert>
+	
+	<update id="deleteBoard">
+		update board set useyn = 'n' 
+			where bno = #{bno}
+	</update>
+	
+	<update id="updateBoard">
+		update board set 
+			title = #{title},
+			content = #{content}
+			where bno = #{bno}
+	</update>
+	
+	<select id="listCount" resultType="int" parameterType="com.project.biz.paging.Criteria">
+			select count(bno)
+				from board
+				where 1 = 1
+				and bno > 0 
+	</select>
+	
+	<update id="viewCount">
+		update board set
+			viewcnt = viewcnt + 1
+			where bno = #{bno}
+	</update>
+	
+	<select id="noticeList" resultType="board">
+		select * from board
+			where writer = 'admin'
+	</select>
+	
+	<delete id="deleteNotice">
+		delete from board
+			where bno = #{bno}
+	</delete>
+</mapper>

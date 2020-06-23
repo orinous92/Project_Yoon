@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="OrderDAO">
+	
+	<!-- no의 역할 -->
+	<select id="selectMaxOno" resultType="int">
+		select NVL2(max(ono), max(ono)+1, 1) from orders
+		<!-- 값이 없을 때 null 값이 들어갈 수 있으니 이렇게 해준다. max(ono)가 null값이 아니면 ono의 최대값+1, null값이면 1을 넣어준다. -->
+	</select>
+	
+	<insert id="insertOrder">
+		insert into orders (ono , userid) values (#{ono}, #{userid})
+	</insert>
+	
+	<insert id="insertOrderDetail">
+		insert into order_detail(odno, ono, pno, quantity) values(order_detail_seq.nextval, #{ono}, #{pno}, #{quantity})
+	</insert>
+	
+	<!-- 사용자별 주문내역 조회 -->
+	<select id="listOrderById" resultType="order">
+		select * 
+			from order_view 
+			where userid = #{userid} 
+				and result like '%'||#{result}||'%' 
+				and ono = #{ono}
+	</select>
+	
+	<!-- 사용자별 주문번호 조회 -->
+	<select id="selectNoOrdering" parameterType="String" resultType="Integer">
+		select distinct ono
+			from order_view 
+			where userid = #{userid}
+			and result = '1'
+			order by ono desc
+	</select>
+	
+	<!-- 주문 전체 조회 -->
+	<select id="listOrder" parameterType="String" resultType="order">
+		select * 
+			from order_view 
+			where mname like '%'||#{mname}||'%'
+			order by result, ono desc
+	</select>
+	
+	<!--  주문상태 갱신  -->
+	<update id="updateOrderResult" parameterType="int">
+		update order_detail
+			set result='2'
+			where odno = #{odno}
+	</update>
+</mapper>
