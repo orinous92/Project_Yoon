@@ -55,7 +55,7 @@
 				<a href="contract">회원가입</a>
 			</li>
 			<li class="icon_nav">
-				<a href="cart_list">장바구니</a>
+				<a href="cart_list">마이페이지</a>
 			</li>
 			<li class="icon_nav">
 				<a href="notice_list">고객센터</a>
@@ -74,7 +74,7 @@
 				<a href="signout">로그아웃</a>
 			</li>
 			<li>
-				<a href="cart_list">장바구니</a>
+				<a href="cart_list">마이페이지</a>
 			</li>
 			<li>
 				<a href="notice_list">고객센터</a>
