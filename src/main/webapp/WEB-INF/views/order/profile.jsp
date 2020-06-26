@@ -20,6 +20,14 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <script src="http://code.jquery.com/jquery-latest.js"></script>
+
+<script type="text/javascript">
+	function mod_btn(){
+		document.formm.action = "modify_user_form";
+		document.formm.submit();
+	}
+
+</script>
 <style>
 
 body {
@@ -75,11 +83,9 @@ body {
 				<%@ include file="aside.jsp" %>
 			</aside>
 			<div id="container_box">
-				<form name="formm" method="get" action="modify_user">
+				<form name="formm" method="post" >
 				<input type="hidden" name="grade" id="grade" value="${memberVO.grade}">
 				<input type="hidden" name="password" id="password" value="${memberVO.password}">
-				<input type="hidden" name="regdate" id="regdate" value="${memberVO.regdate}">
-				<input type="hidden" name="birthdate" id="birthdate" value="${memberVO.birthdate}">
 				<input type="hidden" name="useyn" id="useyn" value="${memberVO.useyn}">
 				<table>
 					<tr>
@@ -107,7 +113,9 @@ body {
 							<input type="text" class="form-control" id="address" name="address" size="50" value="${memberVO.address}" readonly="readonly">
 					</td>
 					</tr>
-
+					<tr>
+					<td colspan="2" style="text-align:right"><button type="button" class="btn btn-default" name="modify_btn" onclick="mod_btn()">수정하기</button></td>
+					</tr>
 				</table>
 				</form>
 			</div>

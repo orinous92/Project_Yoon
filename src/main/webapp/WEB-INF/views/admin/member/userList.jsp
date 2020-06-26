@@ -142,7 +142,7 @@ function go_all(){
 										<span style="color:blue;">사용</span>
 									</c:when>
 									<c:otherwise>
-										<span style="color:red;">미사용</span>
+										<span style="color:red;">탈퇴</span>
 									</c:otherwise>
 								</c:choose>
 							</td>

@@ -274,8 +274,10 @@ public class MyPageController {
 		MemberVO member = (MemberVO)session.getAttribute("member");
 		
 		if(member != null) {
-			System.out.println(member);
-			model.addAttribute("memberVO", member);
+			
+			MemberVO vo = memberService.getUser(member);
+			System.out.println("memberList : " + vo);
+			model.addAttribute("memberVO", vo);
 			
 			result = "order/profile";
 			
@@ -288,35 +290,57 @@ public class MyPageController {
 		
 	}
 	
-	@RequestMapping(value="modify_user", method = RequestMethod.GET)
-	public String modifyUserView() {
-		return "order/modify";
+	@RequestMapping(value="modify_user_form", method = RequestMethod.POST)
+	public String modifyUserView(MemberVO mVo, HttpSession session, Model model) {
+		
+		String result = "";
+		
+		System.out.println(mVo);
+		
+		MemberVO member = (MemberVO)session.getAttribute("member");
+		
+		if(member != null) {
+			
+			MemberVO vo = memberService.getUser(member);
+			System.out.println("member : " + vo);
+			model.addAttribute("member", vo);
+			
+			result = "order/modify";
+			
+		} else {
+			
+			result = "member/signin";
+		}
+		return result;
 	}
 	
 	@RequestMapping(value="modify_user", method = RequestMethod.POST)
-	public String modifyUserAction(MemberVO mVo, Model model, @RequestParam(value="phone1", required=false)String phone1,
-															  @RequestParam(value="phone2", required=false)String phone2,
-															  @RequestParam(value="phone3", required=false)String phone3,
-															  @RequestParam(value="grade", required=false)int grade) throws Exception {
+	public String modifyUserAction(MemberVO mVo, Model model) throws Exception {
 		
 		
-		mVo.setPhone(phone1 + "-" + phone2 + "-" + phone3);
-		
-		
-		System.out.println(mVo);
 		memberService.updateMember(mVo);
-	
-		model.addAttribute("member");
+		System.out.println("수정 완료:"+mVo);
 		
-		return "order/mypage";
+		return "redirect:profile";
 	}
 	
-	@RequestMapping(value="delete_user", method=RequestMethod.POST)
-	public String deleteMember(MemberVO mVo) {
+	@RequestMapping(value="delete_user", method=RequestMethod.GET)
+	public String deleteMember(MemberVO mVo,HttpSession session) {
 		
-		System.out.println(mVo.getUserid());
-		memberService.deleteMember(mVo.getUserid());
+		String result = "";
 		
-		return "index";
+		MemberVO member = (MemberVO)session.getAttribute("member");
+		
+		if(member != null) {
+			member.setUseyn("n");
+			memberService.deleteMember(member.getUserid());
+			System.out.println("탈퇴 처리 완료:" + mVo);
+			
+			result = "redirect:index";
+		} else {
+			result = "member/signin";
+		}
+		return result;
+
 	}
 }

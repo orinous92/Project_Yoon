@@ -99,7 +99,7 @@
 	<!-- 회원정보 수정 -->
 	<update id="updateMember">
 		update member 
-			set username = #{username}, email = #{email}, phone = #{phone}, address = #{address}
+			set username = #{username}, email = #{email}, address = #{address}
 				where userid = #{userid}
 	</update>
 	

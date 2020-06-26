@@ -16,7 +16,7 @@
 </style>
     
 <div class="comment">
-	<form id="board_commentForm" name="board_commentForm" method="post">
+	<form id="commentForm" name="commentForm" method="post">
 		<input type="hidden" id="bno" name="bno" value="${boardVO.bno}"/>
 		<div>
 			<div>
@@ -42,8 +42,8 @@
 </div> 
 
 <div class="container">
-		<form id="board_commentListForm" name="board_commentListForm" method="post">
-			<div id="boardCommentList">
+		<form id="commentListForm" name="commentListForm" method="post">
+			<div id="commentList">
 				<input type="hidden" id="userid" name="userid" value="${member.userid}">
 			</div>
 		</form>		
@@ -63,7 +63,7 @@ function save_comment(bno){
 		$.ajax({
 			type:'POST',
 			url: 'board_comment_insert',
-			data: $("#board_commentForm").serialize(), 
+			data: $("#commentForm").serialize(), 
 			success: function(data){
 				if(data =="success") { 
 					getCommentList(); 
@@ -83,7 +83,7 @@ function save_comment(bno){
 			type: 'GET',
 			url: 'board_comment_list',
 			dataType: "json",
-			data: $("#board_commentForm").serialize(),
+			data: $("#commentForm").serialize(),
 			contentType: "application/x-www-form-urlencoded; charset=UTF-8",
 			success: function(data){
 				
@@ -96,7 +96,7 @@ function save_comment(bno){
 						html += "<table id=\"comment_left\"><tr><td><strong>" + data[i].writer + "</strong>&emsp;"
 						html += "<span id=\"writer_date\">" + displayTime(data[i].regdate) + "<span></td></tr>"
 						html += "<tr><td>"+ data[i].content + "<br></td></tr></table>";
-					if(document.board_commentListForm.userid.value == data[i].writer){
+					if(document.commentListForm.userid.value == data[i].writer){
 						html += "<table id=\"comment_right\"><tr><td style='text-align:right;'>";
 						html += "<a href=\"board_comment_delete?comment_no="+data[i].comment_no+"&bno="+data[i].bno+"\">삭제</a></td></tr></table>";
 					}
@@ -110,7 +110,7 @@ function save_comment(bno){
 				}
 				
 				$("#cCnt").html(cCnt + "개의 댓글이 있습니다."); // 상품평의 갯수 출력
-				$("#boardCommentList").html(html);
+				$("#commentList").html(html);
 			},
 			error : function(request, status, error){
 				alert("comment 목록을 조회하지 못했습니다.");

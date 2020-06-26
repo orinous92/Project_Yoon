@@ -123,7 +123,7 @@ public class CommentController {
 	@RequestMapping(value="board_comment_delete", method = RequestMethod.GET)
 	public String deleteComment(HttpSession session, Board_CommentVO bVo) {
 		
-		productService.deleteComment(bVo.getComment_no());
+		boardService.deleteBoardComment(bVo.getComment_no());
 		System.out.println("delete 기능 처리");
 		
 		return "redirect:board_detail?bno=" + bVo.getBno();

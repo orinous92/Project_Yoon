@@ -30,13 +30,9 @@
 <script src="http://code.jquery.com/jquery-latest.js"></script>
 
 <script type="text/javascript">
-			function update_btn(){
-				document.formm.action = "modify_user";
-				document.formm.submit();
-			}
 			
 			function delete_btn(){
-				var confirm = ("아이디를 삭제 하시겠습니까?");
+				var confirm = "아이디를 탈퇴 하시겠습니까?";
 				if(confirm == true){
 					document.formm.action = "delete_user";
 					document.formm.submit();	
@@ -80,6 +76,7 @@ body {
 	aside ul li a { display:block; width:100%; padding:10px 0; }
 	aside ul li a:hover { background:#eee; }
 	
+	#btn { width : 720px;}
 	
 	footer#footer { background:#f9f9f9; padding:20px; }
 	footer#footer ul li { display:inline-block; margin-right:10px }
@@ -103,7 +100,7 @@ body {
 				<%@ include file="aside.jsp" %>
 			</aside>
 			<div id="container_box">
-				<form method="post" name="formm" action="">	
+				<form method="post" name="formm" action="modify_user">	
 				<table>
 					<tr>
 						<td colspan="2" style="height:100px;"><h1>회원 정보</h1></td>
@@ -123,11 +120,7 @@ body {
 					<tr>
 						<th>전화번호</th>
 						<td>
-							<div class="form-inline">
-							<input type="text" name="phone1" class="form-control" style="width:60px;" value="010" readonly="readonly">&emsp;-&emsp;
-							<input type="text" name="phone2" class="form-control" style="width:60px;">&emsp;-&emsp;
-							<input type="text" name="phone3" class="form-control" style="width:60px;">
-							</div>
+							<input type="text" name="phone" class="form-control" value="${member.phone }" readonly="readonly">
 						</td>
 					</tr>
 					<tr>
@@ -136,16 +129,20 @@ body {
 							<input type="text" class="form-control" name="address" size="50" value="${member.address}">
 						</td>
 					</tr>
-				</table><br>
-						<div>
-							<div id="btn_left" style="width:50%; float:left">
-							<input type="submit" name="update_btn" class="btn btn-primary" onclick="update_btn()" value="확인">
-							<input type="button" name="back_btn" class="btn btn-default" onclick="location:history.go(-1)" value="뒤로가기">
+					<tr>
+						<td colspan="3">
+						<div id="btn">
+							<div id="btn_left" style="width:90%; float:left">
+							<button type="submit" name="update_btn" class="btn btn-primary" onclick="update_btn()">확인</button>
+							<button type="button" name="back_btn" class="btn btn-default" onclick="location:history.go(-1)">뒤로가기</button>
 							</div>
-							<div id="btn_right" style="width:50%; float:right">
-							<button type="button"  id="delete_btn" class="btn btn-danger" onclick="delete_btn()">탈퇴</button>
+							<div id="btn_right" style="width:10%; float:right;" >
+							<a href="delete_user"  id="delete_btn" class="btn btn-danger" onclick="delete_btn()">탈퇴</a>
 							</div>
 						</div>
+						</td>
+					</tr>
+					</table>
 				</form>
 			</div>
 		</section>

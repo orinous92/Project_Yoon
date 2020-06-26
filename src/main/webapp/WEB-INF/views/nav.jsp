@@ -64,7 +64,7 @@
 		<c:if test="${member != null }">
 			<c:if test="${member.grade == 1 }">
 			<li class="icon_nav">	
-				<a href="admin">관리자 화면</a>
+				<a href="admin_product_list">관리자 화면</a>
 			</li>
 			</c:if>
 			<li class="icon_nav">
